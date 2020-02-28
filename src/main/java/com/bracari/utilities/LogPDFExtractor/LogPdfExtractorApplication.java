@@ -17,6 +17,9 @@ import java.util.regex.Pattern;
 @SpringBootApplication
 public class LogPdfExtractorApplication implements CommandLineRunner {
 
+	@Value("${output.location}")
+	private String outputLocation;
+
 	@Value("${log.resource:classpath:web-1.log}")
 	private Resource logLocation;
 
@@ -57,7 +60,7 @@ public class LogPdfExtractorApplication implements CommandLineRunner {
 
 				try(ByteArrayInputStream input = new ByteArrayInputStream(xhtml_source);
 					ByteArrayOutputStream output = new ByteArrayOutputStream();
-					FileOutputStream pdfStream = new FileOutputStream("C:/Projects/LogPDFExtractor/files/" + dbqNameSnippet + ".pdf")){
+					FileOutputStream pdfStream = new FileOutputStream(outputLocation + dbqNameSnippet + ".pdf")){
 
 					HtmlConverter.convertToPdf(input, output);
 					output.writeTo(pdfStream);
